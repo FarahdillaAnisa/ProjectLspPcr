@@ -56,6 +56,7 @@ class TambahDataActivity : AppCompatActivity(), LocationListener {
 //                    data?.longitude = longitude
 //                }
 
+                //CONTOH BENTUK NAMED ARGUMENT (FUNCTIONAL PROGRAMMING)
                 dataSiswa = dataEntity(nama = nama, sekolah = sekolah, latitude = latitude, longitude = longitude)
 
                 dataInsertViewModel.insert(dataSiswa as dataEntity)
