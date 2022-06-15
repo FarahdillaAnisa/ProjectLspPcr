@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val dataInsertViewModel = obtainViewModel(this@MainActivity)
         dataInsertViewModel.getAllData().observe(this, { listdata ->
             if (listdata != null) {
@@ -37,5 +38,10 @@ class MainActivity : AppCompatActivity() {
     private fun obtainViewModel(activity: AppCompatActivity): dataInsertViewModel {
         val factory = ViewModelFactory.getInstance(activity.application)
         return ViewModelProvider(activity, factory).get(dataInsertViewModel::class.java)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }

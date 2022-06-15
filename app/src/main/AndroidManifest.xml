@@ -13,6 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectLspPengaduan">
         <activity android:name=".functionalProgram.TiketBioskopActivity" />
+        <activity android:name=".aksesOverloadingMethod"/>
+<!--        <activity android:name=".SplashScreenActivity"/>-->
         <activity android:name=".ui.TambahDataActivity" />
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".SplashScreenActivity">

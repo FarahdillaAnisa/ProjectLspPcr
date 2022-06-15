@@ -3,45 +3,60 @@ package com.icha.projectlsppengaduan.functionalProgram
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.icha.projectlsppengaduan.R
+import android.widget.Toast
 import com.icha.projectlsppengaduan.databinding.ActivityTiketBioskopBinding
 
 class TiketBioskopActivity : AppCompatActivity() {
     private lateinit var binding : ActivityTiketBioskopBinding
-    private var list: MutableMap<String, String> = mutableMapOf()
+    val mutableMap: MutableMap<String, Int> = mutableMapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTiketBioskopBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         main()
     }
 
     fun main() {
-        val mutableMap: MutableMap<String, String> = mutableMapOf()
+
+        var film = ""
+        var jumlah = 0
 
         binding.btnAddData.setOnClickListener {
-            val film = binding.edtFilm.text.toString().trim()
-            val jumlah = binding.edtJumlah.text.toString().trim()
-            Log.d("film", "${film}, ${jumlah}")
-            mutableMap.put(film, jumlah)
-            binding.edtFilm.text?.clear()
-            binding.edtJumlah.text?.clear()
+            try {
+                film = binding.edtFilm.text.toString().trim()
+                jumlah = binding.edtJumlah.text.toString().toInt()
+                Log.d("film", "${film}, ${jumlah}")
+                mutableMap.put(film, jumlah)
+                binding.edtFilm.text?.clear()
+                binding.edtJumlah.text?.clear()
+            } catch (e: NumberFormatException) {
+                Toast.makeText(this, "masukkan dalam format angka", Toast.LENGTH_SHORT).show()
+                binding.edtJumlah.text?.clear()
+            }
         }
 
         binding.btnPrintList.setOnClickListener {
-            var text: String = ""
-            for(key in mutableMap.keys) {
-                text += println("key: ${key}, value: ${mutableMap[key]}")
-            }
-            binding.hasil.setText(text)
+            cetak()
         }
     }
 
-//    fun addTicket(film : String, jumlah: String): MutableMap<String, String> {
-//        val mutableMap: MutableMap<String, String> = mutableMapOf<String, String>()
-//        mutableMap.put(film, jumlah)
-//        return mutableMap
-//    }
+    val cetak = {
+        var text: String = ""
+        for(key in mutableMap.keys) {
+            val harga = mutableMap[key]?.let {jumlah -> total(jumlah) }
+            text += "key: ${key}, value: ${mutableMap[key]}, Harga : ${harga}; \n"
+        }
+        binding.hasil.setText(text)
+
+    }
+
+    var total: (Int) -> Int = {jumlah -> jumlah * 25000}
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
 }
